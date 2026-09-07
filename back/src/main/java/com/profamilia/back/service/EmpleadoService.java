@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.profamilia.back.dto.EmpleadoRequest;
 import com.profamilia.back.entity.Empleado;
+import com.profamilia.back.exception.EmpleadoNotFoundException;
 import com.profamilia.back.repository.EmpleadoRepository;
 
 @Service
@@ -34,7 +35,7 @@ public class EmpleadoService {
     public Empleado cambiarAsistencia(Long id) {
 
         Empleado empleado = empleadoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+                .orElseThrow(() -> new EmpleadoNotFoundException(id));
 
         empleado.setPresente(!empleado.isPresente());
 
