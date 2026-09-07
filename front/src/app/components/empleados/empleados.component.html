@@ -1,46 +1,67 @@
 <div class="container">
 
-  <h1>Sistema de Control de Asistencia</h1>
+  <header>
+    <h1>Control de Asistencia</h1>
+    <p>Gestión de empleados y asistencia</p>
+  </header>
 
-  <section class="form-section">
+  @if (successMessage) {
+  <div class="alert success">
+    {{ successMessage }}
+  </div>
+  }
+
+  @if (errorMessage) {
+  <div class="alert error">
+    {{ errorMessage }}
+  </div>
+  }
+
+  <section class="card">
 
     <h2>Registrar empleado</h2>
 
     <form (ngSubmit)="agregarEmpleado()">
 
-      <input
-        type="text"
-        name="nombreCompleto"
-        [(ngModel)]="nuevoEmpleado.nombreCompleto"
-        placeholder="Nombre completo"
-        required
-      >
+      <div class="form-group">
+        <label for="nombre">Nombre completo</label>
 
-      <input
-        type="text"
-        name="puesto"
-        [(ngModel)]="nuevoEmpleado.puesto"
-        placeholder="Puesto"
-        required
-      >
+        <input id="nombre" type="text" name="nombreCompleto" [(ngModel)]="nuevoEmpleado.nombreCompleto"
+          placeholder="Ej: Juan Pérez">
+      </div>
 
-      <button type="submit">
-        Registrar
+      <div class="form-group">
+        <label for="puesto">Puesto</label>
+
+        <input id="puesto" type="text" name="puesto" [(ngModel)]="nuevoEmpleado.puesto" placeholder="Ej: Desarrollador">
+      </div>
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Guardando...' : 'Registrar empleado' }}
       </button>
 
     </form>
 
   </section>
 
-  <section>
+  <section class="card">
 
     <h2>Empleados</h2>
+
+    @if (loading) {
+    <p class="loading">Cargando...</p>
+    }
+
+    @if (!loading && empleados.length === 0) {
+    <p>No existen empleados registrados.</p>
+    }
+
+    @if (empleados.length > 0) {
 
     <table>
 
       <thead>
         <tr>
-          <th>ID</th>
           <th>Nombre</th>
           <th>Puesto</th>
           <th>Estado</th>
@@ -50,33 +71,43 @@
 
       <tbody>
 
-        <tr *ngFor="let empleado of empleados">
+        @for (empleado of empleados; track empleado.id) {
 
-          <td>{{ empleado.id }}</td>
+        <tr>
 
           <td>{{ empleado.nombreCompleto }}</td>
 
           <td>{{ empleado.puesto }}</td>
 
           <td>
-            <span [class.presente]="empleado.presente">
+
+            <span class="status" [class.present]="empleado.presente" [class.absent]="!empleado.presente">
+
               {{ empleado.presente ? 'Presente' : 'Ausente' }}
+
             </span>
+
           </td>
 
           <td>
-            <button
-              type="button"
-              (click)="cambiarEstado(empleado)">
+
+            <button type="button" class="action-button" (click)="cambiarEstado(empleado)" [disabled]="loading">
+
               Cambiar Estado
+
             </button>
+
           </td>
 
         </tr>
 
+        }
+
       </tbody>
 
     </table>
+
+    }
 
   </section>
 

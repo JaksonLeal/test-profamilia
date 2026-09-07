@@ -5,30 +5,62 @@
   font-family: Arial, sans-serif;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 40px;
+header {
+  margin-bottom: 30px;
 }
 
-.form-section {
-  margin-bottom: 40px;
+header h1 {
+  margin-bottom: 5px;
+}
+
+header p {
+  color: #666;
+}
+
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 25px;
+  margin-bottom: 25px;
 }
 
 form {
   display: flex;
-  gap: 10px;
+  gap: 15px;
+  align-items: end;
 }
 
-input {
-  padding: 10px;
+.form-group {
   flex: 1;
 }
 
-button {
-  padding: 10px 16px;
-  border: none;
-  cursor: pointer;
+label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px;
+  border: 1px solid #ccc;
   border-radius: 5px;
+}
+
+button {
+  padding: 11px 18px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #333;
+  color: white;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
 table {
@@ -38,11 +70,45 @@ table {
 
 th,
 td {
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+  padding: 14px;
+  border-bottom: 1px solid #eee;
   text-align: left;
 }
 
-.presente {
+.status {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 15px;
   font-weight: bold;
+}
+
+.present {
+  background: #d4edda;
+  color: #155724;
+}
+
+.absent {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.alert {
+  padding: 12px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.loading {
+  text-align: center;
+  padding: 20px;
 }

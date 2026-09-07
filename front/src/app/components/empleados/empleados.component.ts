@@ -16,7 +16,9 @@ export class EmpleadosComponent implements OnInit {
   private empleadoService = inject(EmpleadoService);
 
   empleados: Empleado[] = [];
-
+  loading = false;
+  errorMessage = '';
+  successMessage = '';
   nuevoEmpleado = {
     nombreCompleto: '',
     puesto: ''
@@ -27,12 +29,17 @@ export class EmpleadosComponent implements OnInit {
   }
 
   cargarEmpleados(): void {
+    this.loading = true;
+    this.errorMessage = '';
+
     this.empleadoService.listar().subscribe({
       next: (data) => {
         this.empleados = data;
+        this.loading = false;
       },
-      error: (error) => {
-        console.error('Error cargando empleados', error);
+      error: () => {
+        this.errorMessage = 'No fue posible cargar los empleados.';
+        this.loading = false;
       }
     });
   }
@@ -40,34 +47,64 @@ export class EmpleadosComponent implements OnInit {
   agregarEmpleado(): void {
 
     if (!this.nuevoEmpleado.nombreCompleto.trim() ||
-        !this.nuevoEmpleado.puesto.trim()) {
+      !this.nuevoEmpleado.puesto.trim()) {
+      this.errorMessage = 'Debe completar todos los campos.';
       return;
     }
 
+    this.loading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
     this.empleadoService.crear(this.nuevoEmpleado).subscribe({
       next: () => {
+
         this.nuevoEmpleado = {
           nombreCompleto: '',
           puesto: ''
         };
 
+        this.successMessage = 'Empleado registrado correctamente.';
         this.cargarEmpleados();
       },
-      error: (error) => {
-        console.error('Error creando empleado', error);
+
+      error: () => {
+        this.errorMessage = 'No fue posible registrar el empleado.';
+        this.loading = false;
       }
     });
   }
 
   cambiarEstado(empleado: Empleado): void {
 
+    const estadoActual = empleado.presente
+      ? 'Presente'
+      : 'Ausente';
+
+    const nuevoEstado = empleado.presente
+      ? 'Ausente'
+      : 'Presente';
+
+    const confirmar = window.confirm(
+      `¿Desea cambiar a ${empleado.nombreCompleto} de ${estadoActual} a ${nuevoEstado}?`
+    );
+
+    if (!confirmar) {
+      return;
+    }
+
+    this.loading = true;
+    this.errorMessage = '';
+
     this.empleadoService.cambiarAsistencia(empleado.id)
       .subscribe({
         next: () => {
+          this.successMessage = 'Estado actualizado correctamente.';
           this.cargarEmpleados();
         },
-        error: (error) => {
-          console.error('Error cambiando estado', error);
+        error: () => {
+          this.errorMessage = 'No fue posible cambiar el estado.';
+          this.loading = false;
         }
       });
   }
