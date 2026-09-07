@@ -1,0 +1,83 @@
+<div class="container">
+
+  <h1>Sistema de Control de Asistencia</h1>
+
+  <section class="form-section">
+
+    <h2>Registrar empleado</h2>
+
+    <form (ngSubmit)="agregarEmpleado()">
+
+      <input
+        type="text"
+        name="nombreCompleto"
+        [(ngModel)]="nuevoEmpleado.nombreCompleto"
+        placeholder="Nombre completo"
+        required
+      >
+
+      <input
+        type="text"
+        name="puesto"
+        [(ngModel)]="nuevoEmpleado.puesto"
+        placeholder="Puesto"
+        required
+      >
+
+      <button type="submit">
+        Registrar
+      </button>
+
+    </form>
+
+  </section>
+
+  <section>
+
+    <h2>Empleados</h2>
+
+    <table>
+
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Puesto</th>
+          <th>Estado</th>
+          <th>Acción</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngFor="let empleado of empleados">
+
+          <td>{{ empleado.id }}</td>
+
+          <td>{{ empleado.nombreCompleto }}</td>
+
+          <td>{{ empleado.puesto }}</td>
+
+          <td>
+            <span [class.presente]="empleado.presente">
+              {{ empleado.presente ? 'Presente' : 'Ausente' }}
+            </span>
+          </td>
+
+          <td>
+            <button
+              type="button"
+              (click)="cambiarEstado(empleado)">
+              Cambiar Estado
+            </button>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </section>
+
+</div>
