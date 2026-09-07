@@ -68,7 +68,7 @@ Los nuevos empleados se registran inicialmente como `Ausentes`.
 Crear una base de datos MySQL:
 
 ```sql
-CREATE DATABASE asistencia_db;
+CREATE DATABASE testprofamilia;
 ```
 
 Configurar las credenciales en:
@@ -80,9 +80,9 @@ backend/src/main/resources/application.properties
 Ejemplo:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/asistencia_db?useSSL=false&serverTimezone=UTC
+spring.datasource.url=jdbc:mysql://localhost:3306/testprofamilia?useSSL=false&serverTimezone=UTC
 spring.datasource.username=root
-spring.datasource.password=TU_PASSWORD
+spring.datasource.password=TU_CONTRASEÑA
 
 spring.jpa.hibernate.ddl-auto=update
 
@@ -139,7 +139,7 @@ Body:
 ```json
 {
   "nombreCompleto": "Juan Pérez",
-  "puesto": "Desarrollador"
+  "puesto": "Dev"
 }
 ```
 
@@ -176,7 +176,7 @@ Los tests unitarios se ejecutan mediante:
 mvn test
 ```
 
-Se cubren, entre otros escenarios:
+Otros escenarios:
 
 * Creación de empleados.
 * Creación inicial como ausente.
